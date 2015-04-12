@@ -1,6 +1,12 @@
+#get file
+fileUrl <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
+download.file(fileUrl, destfile="household_power_consumption.txt", method="curl")
+
+#read table
 hpc<-read.table("household_power_consumption.txt",header=TRUE,sep=";",
                 colClasses=c(rep("character",2),rep("numeric",7)),
                 na.strings=c("?"))
+
 #convert Date field to date format
 hpc$date<-as.Date(hpc$Date, format = "%d/%m/%Y")
 
@@ -13,8 +19,14 @@ hpc$Time<-chron(times=hpc$Time)
 #subset out dates of interest
 hpcSub<-subset(hpc, hpc$Date == "1/2/2007" | hpc$Date == "2/2/2007")
 
+#save default par
+parDefault<-par
+
 #create histogram of global active power, save to png
 png(filename="plot1.png",type=c("quartz"))
-hist(hpcSub$Global_active_power,col="red", main=paste("Global Active Power"),
-     xlab="Global Active Power (kilowatts)",ylab="Frequency")
+        hist(hpcSub$Global_active_power,col="red", main=paste("Global Active 
+                Power"),xlab="Global Active Power (kilowatts)",ylab="Frequency")
 dev.off()
+
+#restore default par
+par<-parDefault

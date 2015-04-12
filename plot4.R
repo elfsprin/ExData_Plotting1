@@ -1,3 +1,8 @@
+#get file
+fileUrl <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
+download.file(fileUrl, destfile="household_power_consumption.txt", method="curl")
+
+#read table
 hpc<-read.table("household_power_consumption.txt",header=TRUE,sep=";",
                 colClasses=c(rep("character",2),rep("numeric",7)),
                 na.strings=c("?"))
@@ -23,27 +28,29 @@ parDefault<-par
 #create 4 plots, save to png
 png(filename="plot4.png",type=c("quartz"))
 
-#edit special par
-par(mfrow = c(2, 2))
+        #edit special par
+        par(mfrow = c(2, 2))
 
-#create plot (1,1)
-plot(hpcSub$datetime,hpcSub$Global_active_power,xlab="",
-        ylab="Global Active Power",type="l")
+        #create plot (1,1)
+        plot(hpcSub$datetime,hpcSub$Global_active_power,xlab="",
+                ylab="Global Active Power",type="l")
 
-#create plot (1,2)
-plot(hpcSub$datetime,hpcSub$Voltage,xlab="datetime",ylab="Voltage",type="l")
+        #create plot (1,2)
+        plot(hpcSub$datetime,hpcSub$Voltage,xlab="datetime",ylab="Voltage",
+                type="l")
 
-#create plot (2,1)
-plot(hpcSub$datetime,hpcSub$Sub_metering_1,xlab="",ylab="Energy sub metering",
-        type="l")
-points(hpcSub$datetime,hpcSub$Sub_metering_2,col="red",type="l")
-points(hpcSub$datetime,hpcSub$Sub_metering_3,col="blue",type="l")
-legend("topright", col = c("black", "red", "blue"), legend = c("Sub_metering_1",
-        "Sub_metering_2","Sub_metering_3"),bty="n",lwd=2,lty=c(1,1,1))
+        #create plot (2,1)
+        plot(hpcSub$datetime,hpcSub$Sub_metering_1,xlab="",ylab="Energy sub 
+                metering",type="l")
+        points(hpcSub$datetime,hpcSub$Sub_metering_2,col="red",type="l")
+        points(hpcSub$datetime,hpcSub$Sub_metering_3,col="blue",type="l")
+        legend("topright", col = c("black", "red", "blue"), legend = c(
+                "Sub_metering_1","Sub_metering_2","Sub_metering_3"),bty="n",
+                lwd=2,lty=c(1,1,1))
 
-#create plot (2,2)
-plot(hpcSub$datetime,hpcSub$Global_reactive_power,xlab="datetime",
-        ylab="Global_reactive_power",type="l")
+        #create plot (2,2)
+        plot(hpcSub$datetime,hpcSub$Global_reactive_power,xlab="datetime",
+                ylab="Global_reactive_power",type="l")
 
 dev.off()
 
